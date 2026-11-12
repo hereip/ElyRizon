@@ -6,8 +6,8 @@ use super::{now, request_to, send, str_field, Body};
 use serde_json::Value;
 use std::time::{Duration, Instant};
 
-pub const NOT_CONFIGURED: &str =
-    "This build has no Ely.by application ID (HORIZON_ELY_CLIENT_ID).";
+/// Public client ID registered for ElyRizon on Ely.by. This is an identifier, not a secret.
+pub const DEFAULT_CLIENT_ID: &str = "elyrizon";
 
 pub const SCOPES: &str = "account_info offline_access minecraft_server_session";
 
@@ -32,14 +32,15 @@ impl Endpoints {
     }
 }
 
-/// Ely.by's public application identifier. It is not a secret; do not put a client secret in the
-/// desktop binary. The run-time value takes precedence over the build-time value.
-pub fn client_id() -> Option<String> {
+/// Ely.by's public application identifier. It is not a secret; never embed a client secret in
+/// the desktop binary. A run-time override is useful for developers testing another registration.
+pub fn client_id() -> String {
     std::env::var("HORIZON_ELY_CLIENT_ID")
         .ok()
         .or_else(|| option_env!("HORIZON_ELY_CLIENT_ID").map(str::to_owned))
         .map(|id| id.trim().to_owned())
         .filter(|id| !id.is_empty())
+        .unwrap_or_else(|| DEFAULT_CLIENT_ID.to_owned())
 }
 
 /// The code the player enters on Ely.by's official page. The private device_code is never shown.
