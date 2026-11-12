@@ -2,7 +2,7 @@
 //! Minecraft profile lookup, account storage and the game-session bridge are separate steps.
 //! The device code and bearer tokens are credentials: never include them in Debug, logs or errors.
 
-use super::{now, request_to, send, str_field, Body};
+use super::{bearer, now, request_to, send, str_field, Body};
 use serde_json::Value;
 use std::time::{Duration, Instant};
 
@@ -82,6 +82,46 @@ pub enum Poll {
     Pending,
     SlowDown,
     Done(Tokens),
+}
+
+/// The public Minecraft profile returned by Ely.by. It contains no credentials.
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+pub struct Profile {
+    /// UUID without dashes, matching the launcher's account representation.
+    pub uuid: String,
+    pub name: String,
+}
+
+/// Fetch the player's Minecraft profile using the OAuth access token.
+/// A 404 means the Ely.by account has no Minecraft profile yet.
+pub fn minecraft_profile(
+    ep: &Endpoints,
+    access_token: &str,
+) -> Result<Option<Profile>, String> {
+    let (status, value) = send(
+        bearer(request_to("GET", &ep.minecraft_profile), access_token),
+        None,
+        "Ely.by",
+    )?;
+
+    if status == 404 {
+        return Ok(None);
+    }
+    if status != 200 {
+        return Err("Ely.by could not load this Minecraft profile.".into());
+    }
+
+    let (Some(uuid), Some(name)) = (
+        str_field(&value, "id"),
+        str_field(&value, "name"),
+    ) else {
+        return Err("Ely.by returned an unreadable Minecraft profile.".into());
+    };
+
+    Ok(Some(Profile {
+        uuid: uuid.replace('-', "").to_lowercase(),
+        name,
+    }))
 }
 
 fn oauth_error(v: &Value) -> String {
