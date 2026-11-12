@@ -2239,6 +2239,37 @@ fn mark(size: f32, t: &Theme) -> Div {
 /// too, without one).
 static KEYBOARD: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
 
+/// GTA-style hidden input: H, I, T, O, R, I. It only advances while the launcher
+/// itself has focus, so typing into search boxes and other fields cannot trigger it.
+static HITORI_PROGRESS: Mutex<Option<(usize, Instant)>> = Mutex::new(None);
+const HITORI_CODE: &[u8] = b"hitori";
+
+fn hitori_code_step(key: &str) -> bool {
+    let mut progress = HITORI_PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
+    let now = Instant::now();
+    let index = progress
+        .as_ref()
+        .filter(|(_, started)| now.duration_since(*started) <= Duration::from_secs(4))
+        .map_or(0, |(index, _)| *index);
+
+    let key = key.as_bytes();
+    let next = if key == &HITORI_CODE[index..index + 1] {
+        index + 1
+    } else if key == b"h" {
+        1
+    } else {
+        0
+    };
+
+    if next == HITORI_CODE.len() {
+        *progress = None;
+        true
+    } else {
+        *progress = (next > 0).then_some((next, now));
+        false
+    }
+}
+
 /// Makes a control reachable with Tab, pressed with Enter or Space, with a ring when the keyboard
 /// put it in focus.
 fn keyboard(el: Stateful<Div>, t: &Theme) -> Stateful<Div> {
@@ -5383,6 +5414,18 @@ impl Render for Launcher {
                 if this.theme.glass && command && !k.modifiers.shift && k.key == "k" {
                     this.palette_toggle(window, cx);
                     cx.stop_propagation();
+                    cx.notify();
+                    return;
+                }
+
+                // Do not listen while a text field or another control owns keyboard focus.
+                if this.root_focus.is_focused(window)
+                    && !k.modifiers.control
+                    && !k.modifiers.shift
+                    && !k.modifiers.platform
+                    && hitori_code_step(&k.key)
+                {
+                    glass_toast::say("ぼっち・ざ・ろっく！  ギターヒーローが現れた！");
                     cx.notify();
                 }
             }))
