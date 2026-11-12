@@ -1,171 +1,180 @@
+> [!WARNING]
+> **ElyRizon — неофициальный форк Horizon!**
+>
+> ElyRizon — независимый проект, основанный на [Horizon](https://github.com/horizon-rust/horizon).
+> Оригинальный Horizon создан [Ludovic Marie (@ludovic111)](https://github.com/ludovic111).
+> ElyRizon не связан с оригинальным автором, не спонсируется и не одобрен им.
+
 <p align="center">
-  <img src="docs/media/banner.webp" alt="Horizon: the game you know, rebuilt in Rust" width="100%">
+  <img src="docs/media/banner.webp" alt="Horizon: знакомая игра, заново созданная на Rust" width="100%">
 </p>
 
 <p align="center">
-  <a href="https://playhorizon.dev"><b>Website</b></a> ·
-  <a href="#download"><b>Download</b></a> ·
-  <a href="https://playhorizon.dev/docs/"><b>Docs</b></a> ·
+  <a href="https://playhorizon.dev"><b>Сайт</b></a> ·
+  <a href="#скачивание"><b>Скачать</b></a> ·
+  <a href="https://playhorizon.dev/docs/"><b>Документация</b></a> ·
   <a href="https://discord.gg/playhorizon"><b>Discord</b></a> ·
-  <a href="ROADMAP.md"><b>Roadmap</b></a> ·
-  <a href="#contributing"><b>Contributing</b></a>
+  <a href="ROADMAP.md"><b>Планы развития</b></a> ·
+  <a href="#участие-в-разработке"><b>Участие в разработке</b></a>
 </p>
 
 <p align="center">
-  <a href="#project-status"><img src="https://img.shields.io/badge/player--visible%20gaps-0%20open-F0795A" alt="Player-visible gaps open"></a>
+  <a href="#состояние-проекта"><img src="https://img.shields.io/badge/player--visible%20gaps-0%20open-F0795A" alt="Открытые проблемы, заметные игрокам"></a>
 </p>
 
-# Horizon
+# ElyRizon
 
-**Minecraft: Java Edition 26.3, rewritten in Rust.** Your worlds, the same rules and the same terrain as the Java game, checked against it by hundreds of differential tests, in one native program with no Java. Free, open source (MIT) and unofficial: you play it with your own copy of Java Edition.
+**Minecraft: Java Edition 26.3, переписанная на Rust.** Ваши миры, те же правила и тот же рельеф, что и в Java-версии, проверенные сотнями дифференциальных тестов — всё это в одной нативной программе без Java. Бесплатный проект с открытым исходным кодом (MIT), неофициальный: для игры нужна ваша собственная копия Java Edition.
+
+ElyRizon — независимый форк Horizon. Сейчас он сохраняет возможности оригинального проекта; одна из целей форка — добавить поддержку авторизации Ely.by. Пока эта функция не реализована.
 
 <p align="center">
-  <img src="docs/media/readme/valley.webp" alt="A river valley with a plains village, savanna hills and a cherry grove, seen from above with a long view distance" width="100%">
+  <img src="docs/media/readme/valley.webp" alt="Долина реки с деревней на равнине, саванными холмами и вишнёвой рощей, вид сверху с большой дальностью прорисовки" width="100%">
 </p>
 
-## What works today
+## Что уже работает
 
-Everything below is in the current release.
+Всё перечисленное ниже доступно в текущем выпуске.
 
-- **The game.** Survival, creative, hardcore and spectator; vanilla world generation in all three dimensions, mobs, villagers, raids, redstone, every command, the HUD and the recipe book. Vanilla saves open as they are, and worlds from 1.8 to 26.2 are upgraded.
-- **Multiplayer.** Join vanilla and Horizon servers (online mode included), open a world to LAN, or invite friends with a code from the launcher's Home page.
-- **Graphics.** Distant terrain up to 1,024 chunks, graphics presets, HDR and controllers, all off by default where they would change the vanilla look ([settings](https://playhorizon.dev/docs/settings)).
-- **Packs.** Resource packs, data packs and shader packs ([below](#mods-and-shader-packs)).
-- **Mods.** Content mods and native Rust mods, installed from the launcher ([below](#mods-and-shader-packs)).
-- **Servers.** Host one from the launcher, or run `horizon-server` on a VPS ([below](#host-a-server)).
-- **The launcher.** It installs and updates the game, prepares its files from your copy of Minecraft, and updates itself.
+- **Игра.** Режимы выживания, творчества, хардкор и наблюдателя; генерация мира в ванильном стиле во всех трёх измерениях, мобы, жители деревень, рейды, редстоун, все команды, HUD и книга рецептов. Ванильные сохранения открываются без изменений, а миры версий от 1.8 до 26.2 обновляются.
+- **Мультиплеер.** Подключение к ванильным серверам и серверам Horizon (включая online mode), открытие мира для локальной сети (LAN) и приглашение друзей по коду со страницы «Главная» лаунчера.
+- **Графика.** Дальняя прорисовка до 1 024 чанков, графические пресеты, HDR и поддержка контроллеров. По умолчанию эти функции выключены, если они могут изменить ванильный вид игры ([настройки](https://playhorizon.dev/docs/settings)).
+- **Пакеты.** Ресурс-паки, датапаки и шейдер-паки ([подробнее ниже](#моды-и-шейдер-паки)).
+- **Моды.** Контентные моды и нативные моды на Rust, которые можно установить через лаунчер ([подробнее ниже](#моды-и-шейдер-паки)).
+- **Серверы.** Создание сервера через лаунчер или запуск `horizon-server` на VPS ([подробнее ниже](#хостинг-сервера)).
+- **Лаунчер.** Устанавливает и обновляет игру, подготавливает её файлы из вашей копии Minecraft и обновляет сам себя.
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/media/readme/sunset.webp" alt="Sunset behind a cherry grove on a hill, with a river below"></td>
-    <td width="50%"><img src="docs/media/readme/nether.webp" alt="A crimson forest in the Nether, with a piglin among the fungi"></td>
+    <td width="50%"><img src="docs/media/readme/sunset.webp" alt="Закат за вишнёвой рощей на холме, внизу видна река"></td>
+    <td width="50%"><img src="docs/media/readme/nether.webp" alt="Багровый лес в Незере, среди грибов стоит пиглин"></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/media/readme/survival.webp" alt="Survival in a village square: two villagers, flowers, the hotbar, health and hunger"></td>
-    <td width="50%"><img src="docs/media/readme/multiplayer.webp" alt="Two players in a LAN world: the other player's name tag and the player list"></td>
+    <td width="50%"><img src="docs/media/readme/survival.webp" alt="Выживание на площади деревни: два жителя, цветы, панель быстрого доступа, здоровье и голод"></td>
+    <td width="50%"><img src="docs/media/readme/multiplayer.webp" alt="Два игрока в мире по локальной сети: надпись с именем другого игрока и список игроков"></td>
   </tr>
 </table>
 
-<sub>Nightly 2026-11-05 on a Mac mini (Apple M4 Pro, Metal): vanilla's textures, no mods or shader packs, render distance 32 with distant terrain on.</sub>
+<sub>Ночная сборка от 2026-11-05 на Mac mini (Apple M4 Pro, Metal): ванильные текстуры, без модов и шейдер-паков, дальность прорисовки 32 чанка, дальняя прорисовка включена.</sub>
 
-## Performance
+## Производительность
 
-**Horizon draws more frames per second than Java Edition, and loads faster, on the same machine, world and path.** `tools/perf_bench.py` runs each game in turn, from a fresh world (seed 1234), waiting for the terrain and then flying it over a village, a forest, an ocean and a mountain. Measured on 2026-10-29/30 on an idle Windows 11 machine (Ryzen 7 9800X3D, RTX 5080), Horizon v0.2.97 as the launcher installs it, 1280x720 in a window, VSync off, three games per figure. Frames per second, mean of the four scenes, with the slowest 1% of frames in brackets:
+**Horizon выдаёт больше кадров в секунду, чем Java Edition, и быстрее загружает мир на одном и том же компьютере, в одном мире и на одном маршруте.** Скрипт `tools/perf_bench.py` по очереди запускает каждую игру в новом мире (seed 1234), ждёт загрузки ландшафта, а затем пролетает над деревней, лесом, океаном и горой. Измерения проведены 2026-10-29/30 на незагруженном компьютере с Windows 11 (Ryzen 7 9800X3D, RTX 5080): Horizon v0.2.97 в той версии, которую устанавливает лаунчер, окно 1280x720, VSync выключен, по три запуска для каждого значения. Ниже указано среднее количество кадров в секунду по четырём сценам; в скобках — показатель для самых медленных 1% кадров:
 
-| Render distance | Horizon v0.2.97 | Vanilla 26.3 | Vanilla + mods |
+| Дальность прорисовки | Horizon v0.2.97 | Ванильная 26.3 | Ванильная + моды |
 | --- | --- | --- | --- |
-| 8 chunks | 3,289 (1,327) | 2,437 (640) | 2,375 (709) |
-| 16 chunks | 2,074 (598) | 1,661 (375) | 1,586 (432) |
-| 32 chunks | 1,207 (333) | 1,031 (176) | 879 (264) |
+| 8 чанков | 3 289 (1 327) | 2 437 (640) | 2 375 (709) |
+| 16 чанков | 2 074 (598) | 1 661 (375) | 1 586 (432) |
+| 32 чанка | 1 207 (333) | 1 031 (176) | 879 (264) |
 
-"Vanilla + mods" is Sodium, Lithium, FerriteCore and ImmediatelyFast. Horizon reaches the title screen in 2.9–3.2 s against vanilla's 7.5–7.7 s (the modded client's 10.8–11.1 s), loads a scene's chunks 2.9–3.8 times faster, and playing holds a steady working set of 1.1–1.7 GB against 1.9–2.9 GB. Every scene with its confidence interval and the run's load log: [the 2026-10-29 reports](benchmarks/perf/windows-9800x3d-5080-2026-10-29.md). Method, and how to measure your own machine: [docs/benchmark.md](docs/benchmark.md). [playhorizon.dev/benchmarks](https://playhorizon.dev/benchmarks) puts these runs beside a 2016 laptop, a Mac mini and a gaming desktop.
+Под «Ванильная + моды» подразумеваются Sodium, Lithium, FerriteCore и ImmediatelyFast. Horizon доходит до главного меню за 2,9–3,2 с против 7,5–7,7 с у ванильной игры (10,8–11,1 с у клиента с модами), загружает чанки сцены в 2,9–3,8 раза быстрее, а во время игры стабильно использует 1,1–1,7 ГБ памяти против 1,9–2,9 ГБ. Все сцены с доверительными интервалами и журналом загрузки: [отчёты за 2026-10-29](benchmarks/perf/windows-9800x3d-5080-2026-10-29.md). Методика и инструкция по измерению производительности на своём компьютере: [docs/benchmark.md](docs/benchmark.md). На [playhorizon.dev/benchmarks](https://playhorizon.dev/benchmarks) эти результаты сравниваются с результатами на ноутбуке 2016 года, Mac mini и игровом ПК.
 
-## Download
+## Скачивание
 
-Get **the Horizon launcher** from [playhorizon.dev](https://playhorizon.dev), or from [the launcher releases](https://github.com/horizon-rust/horizon/releases?q=launcher&expanded=true):
+Скачать **лаунчер Horizon** можно на [playhorizon.dev](https://playhorizon.dev) или на странице [релизов лаунчера](https://github.com/horizon-rust/horizon/releases?q=launcher&expanded=true):
 
-| Platform | File | Needs |
+| Платформа | Файл | Требования |
 | --- | --- | --- |
-| Windows x64 | `horizon-launcher-setup.exe` | Windows 10 or 11, a GPU with Vulkan or DirectX 12 |
+| Windows x64 | `horizon-launcher-setup.exe` | Windows 10 или 11, видеокарта с поддержкой Vulkan или DirectX 12 |
 | Windows on Arm | `horizon-launcher-setup-arm64.exe` | Windows 11 on Arm |
-| macOS, Apple Silicon | `horizon-launcher-macos-arm64.dmg` | macOS 12 or later |
-| macOS, Intel | `horizon-launcher-macos-x64.dmg` | macOS 12 or later |
-| Linux x86-64 | `horizon-launcher-linux-x86_64.AppImage` or `.tar.gz` | a glibc distribution, X11 or Wayland, a GPU with Vulkan or OpenGL 3.3 |
+| macOS, Apple Silicon | `horizon-launcher-macos-arm64.dmg` | macOS 12 или новее |
+| macOS, Intel | `horizon-launcher-macos-x64.dmg` | macOS 12 или новее |
+| Linux x86-64 | `horizon-launcher-linux-x86_64.AppImage` или `.tar.gz` | Дистрибутив с glibc, X11 или Wayland, видеокарта с Vulkan или OpenGL 3.3 |
 
-**You also need a Microsoft account that owns Minecraft: Java Edition.** You sign in with it in the launcher, which plays only with an account that owns the game ([why](docs/microsoft-account.md)). Horizon contains no Minecraft code or assets: an existing install (official launcher, Prism, MultiMC...) is reused, and without one the launcher downloads 26.3 from Mojang for your account. Step by step: [Install and first launch](https://playhorizon.dev/docs/install).
+**Также нужна учётная запись Microsoft, на которой куплена Minecraft: Java Edition.** Войдите в неё через лаунчер: играть можно только с аккаунтом, владеющим игрой ([почему](docs/microsoft-account.md)). Horizon не содержит кода или ресурсов Minecraft: он использует уже существующую установку (официальный лаунчер, Prism, MultiMC и т. д.), а если её нет — загружает версию 26.3 с серверов Mojang для вашей учётной записи. Пошаговая инструкция: [установка и первый запуск](https://playhorizon.dev/docs/install).
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/media/readme/launcher-home.webp" alt="The launcher's Home page: the Horizon instance, Play, the version picker, the friend invite field, screenshots and the patch log"></td>
-    <td width="50%"><img src="docs/media/readme/launcher-mods.webp" alt="The launcher's Mods page: Horizon's mod registry with Zoom selected, and tabs for modpacks, resource packs, shader packs and data packs"></td>
+    <td width="50%"><img src="docs/media/readme/launcher-home.webp" alt="Главная страница лаунчера: сборка Horizon, кнопка запуска, выбор версии, поле приглашения друга, скриншоты и журнал изменений"></td>
+    <td width="50%"><img src="docs/media/readme/launcher-mods.webp" alt="Страница модов лаунчера: каталог модов Horizon с выбранным Zoom и вкладками модпаков, ресурс-паков, шейдер-паков и датапаков"></td>
   </tr>
 </table>
 
-## Mods and shader packs
+## Моды и шейдер-паки
 
-- **Content mods** (`.hmod`): blocks, items, recipes, loot, models and textures, with no code.
-- **Native mods** (`.hnmod`): Rust that the launcher compiles into the game for you, with nothing to install.
-- **Java mods** (Fabric, NeoForge, Forge) don't run: Horizon has no Java. The launcher carries over the data and assets inside their jars, and imports modpacks (`.mrpack`, CurseForge zips, Prism instances) the same way ([modpacks](https://playhorizon.dev/docs/modpacks)).
-- **Shader packs**: Iris/OptiFine-format packs (`shaders/` folders) and Horizon's own WGSL packs, under Video Settings → Shader Packs ([pack format](docs/shaders.md)).
+- **Контентные моды** (`.hmod`): блоки, предметы, рецепты, добыча, модели и текстуры — без кода.
+- **Нативные моды** (`.hnmod`): код на Rust, который лаунчер самостоятельно компилирует для игры. Ничего дополнительно устанавливать не нужно.
+- **Java-моды** (Fabric, NeoForge, Forge) не запускаются: в Horizon нет Java. Лаунчер переносит данные и ресурсы из их JAR-файлов, а также импортирует сборки модов (`.mrpack`, архивы CurseForge, экземпляры Prism) ([сборки модов](https://playhorizon.dev/docs/modpacks)).
+- **Шейдер-паки**: паки в формате Iris/OptiFine (папки `shaders/`) и собственные WGSL-паки Horizon. Они находятся в разделе «Настройки видео → Шейдер-паки» ([формат паков](docs/shaders.md)).
 
-Mods are off by default: a fresh install plays exactly like vanilla 26.3. The launcher's Mods page browses Horizon's registry and Modrinth. [Mods](https://playhorizon.dev/docs/mods) · [make a mod](docs/mods.md).
+По умолчанию моды выключены: новая установка работает точно так же, как ванильная версия 26.3. На странице «Моды» лаунчер показывает каталог Horizon и Modrinth. [Моды](https://playhorizon.dev/docs/mods) · [создание мода](docs/mods.md).
 
-## Host a server
+## Хостинг сервера
 
-The launcher's **Servers** page creates, starts, backs up and updates a server, and invites friends. On a VPS, `horizon-server` installs with one command, needs no Java, and takes vanilla 26.3 and Horizon players alike. [Host a server](https://playhorizon.dev/docs/hosting) ([reference](docs/hosting.md)).
+На странице **«Серверы»** лаунчера можно создавать, запускать, резервировать и обновлять серверы, а также приглашать друзей. На VPS `horizon-server` устанавливается одной командой, не требует Java и поддерживает как игроков ванильной версии 26.3, так и игроков Horizon. [Хостинг сервера](https://playhorizon.dev/docs/hosting) ([справочник](docs/hosting.md)).
 
-## Agent control
+## Управление агентами
 
-AI agents and scripts can play Horizon. `horizon-ctl`, shipped with the game, reads its state as JSON and acts like a player; `horizon-ctl mcp` serves the same commands over MCP.
+ИИ-агенты и скрипты могут играть в Horizon. Поставляемая вместе с игрой утилита `horizon-ctl` читает состояние игры в формате JSON и действует как игрок; `horizon-ctl mcp` предоставляет те же команды через MCP.
 
 ```sh
-horizon-ctl launch --world Survival --seed 5 --wait   # finds the version the launcher installed
-horizon-ctl state                                       # position, health, food, target, screen...
-horizon-ctl goto -0.5 65 -2.5 --near 2.5                # walks there along a path
-horizon-ctl break -1 65 -3                              # mines it; replies with the drops
+horizon-ctl launch --world Survival --seed 5 --wait   # находит версию, установленную лаунчером
+horizon-ctl state                                       # позиция, здоровье, сытость, цель, экран...
+horizon-ctl goto -0.5 65 -2.5 --near 2.5                # идёт туда по маршруту
+horizon-ctl break -1 65 -3                              # ломает блок и возвращает выпавшие предметы
 ```
 
-`horizon-ctl help` lists every command. [Agent control](docs/native-client.md#agent-control-horizon-ctl-and-mcp).
+Команда `horizon-ctl help` выводит список всех команд. [Управление агентами](docs/native-client.md#agent-control-horizon-ctl-and-mcp).
 
-## Build from source
+## Сборка из исходного кода
 
-Needs Rust 1.90+, Python 3.11+, JDK 25, and on Linux `libasound2-dev libudev-dev`. `horizon-prepare` builds the game's resources from **your own copy** of Java Edition 26.3 (checked against `research-lock.json`) and never downloads it:
+Потребуются Rust 1.90+, Python 3.11+, JDK 25, а в Linux — `libasound2-dev libudev-dev`. `horizon-prepare` подготавливает игровые ресурсы из **вашей собственной копии** Java Edition 26.3 (сверяясь с `research-lock.json`) и никогда не скачивает её самостоятельно:
 
-1. **Client:** play 26.3 once in the official launcher. Horizon reads `~/.minecraft` (or `--minecraft-dir` / `HORIZON_MINECRAFT_DIR`).
-2. **Server jar:** the 26.3 server jar (`downloads.server.url` in `versions/26.3/26.3.json`), passed once with `--server-jar` or `HORIZON_SERVER_JAR`.
+1. **Клиент:** хотя бы один раз запустите версию 26.3 через официальный лаунчер. Horizon использует `~/.minecraft` (или путь, указанный через `--minecraft-dir` / `HORIZON_MINECRAFT_DIR`).
+2. **Серверный JAR:** JAR-файл сервера версии 26.3 (`downloads.server.url` в `versions/26.3/26.3.json`). Его нужно один раз передать через `--server-jar` или `HORIZON_SERVER_JAR`.
 
 ```sh
 git clone https://github.com/horizon-rust/horizon.git
 cd horizon
-cargo run --release -p horizon-prepare -- --prepare --server-jar ~/Downloads/server.jar   # needs JDK 25
-cargo run --release -p horizon-prepare -- sounds   # optional: sounds from your launcher install
+cargo run --release -p horizon-prepare -- --prepare --server-jar ~/Downloads/server.jar   # требуется JDK 25
+cargo run --release -p horizon-prepare -- sounds   # необязательно: звуки из установленной игры
 cargo run --release -p horizon-client
 ```
 
-Prepared files land in the gitignored `.local/`: never commit or share them. Options, controls and architecture: [the native client guide](docs/native-client.md); all developer docs: [docs/README.md](docs/README.md).
+Подготовленные файлы помещаются в `.local/`, которая исключена из Git: никогда не добавляйте их в коммиты и не распространяйте. Параметры, управление и архитектура: [руководство по нативному клиенту](docs/native-client.md); вся документация для разработчиков: [docs/README.md](docs/README.md).
 
-## Contributing
+## Участие в разработке
 
-Issues and pull requests are welcome: read [CONTRIBUTING.md](CONTRIBUTING.md) (vanilla first, small pull requests), and see [ROADMAP.md](ROADMAP.md) or [playhorizon.dev/hub](https://playhorizon.dev/hub) for what's next. Questions: [Discord](https://discord.gg/playhorizon). Before a pull request, run the self-check and paste its output:
+Мы приветствуем сообщения об ошибках (issues) и запросы на включение изменений (pull requests): прочитайте [CONTRIBUTING.md](CONTRIBUTING.md) (сначала ванильная версия, небольшие pull request'ы), а также загляните в [ROADMAP.md](ROADMAP.md) или на [playhorizon.dev/hub](https://playhorizon.dev/hub), чтобы узнать о дальнейших планах. Вопросы можно задать в [Discord](https://discord.gg/playhorizon). Перед отправкой pull request запустите самопроверку и приложите её вывод:
 
 ```sh
 git config core.hooksPath .githooks
 python3 tools/pr_ready.py
 ```
 
-It runs rustfmt, clippy, the touched crates' tests, the Python tests, the public-tree check and the vanilla harnesses your change affects. Never commit game files, decompiled source or prepared resources.
+Она запускает rustfmt, clippy, тесты затронутых crate-пакетов, тесты Python, проверку публичного дерева проекта и те тесты совместимости с ванильной игрой, на которые влияют ваши изменения. Никогда не добавляйте в коммиты файлы игры, декомпилированный исходный код или подготовленные ресурсы.
 
-How Horizon is run (the council, theme groups and their leads, the Horizon Team, moderation): [GOVERNANCE.md](GOVERNANCE.md).
+О том, как устроено управление Horizon (совет, тематические группы и их руководители, команда Horizon, модерация): [GOVERNANCE.md](GOVERNANCE.md).
 
-## Project status
+## Состояние проекта
 
-**Player-visible gaps: 0 open** of the 833 the [port ledger](tools/port_ledger.py) found, reading every vanilla 26.3 method against Horizon's code: vanilla behaviour a player would notice that Horizon doesn't have yet. By area: Animals [0](https://github.com/horizon-rust/horizon/issues/3512); Monsters and bosses [0](https://github.com/horizon-rust/horizon/issues/3513); Entities, projectiles, vehicles and decorations [0](https://github.com/horizon-rust/horizon/issues/3514); Items, enchantments and inventories [0](https://github.com/horizon-rust/horizon/issues/3515); Blocks, redstone and fluids [0](https://github.com/horizon-rust/horizon/issues/3516); World, world generation and saves [0](https://github.com/horizon-rust/horizon/issues/3517); Screens, HUD and client packets [0](https://github.com/horizon-rust/horizon/issues/3518); Entity and block rendering, models [0](https://github.com/horizon-rust/horizon/issues/3519); Server and players on the server [0](https://github.com/horizon-rust/horizon/issues/3520); Mob AI, villagers and raids [0](https://github.com/horizon-rust/horizon/issues/3521). This number goes down as gaps close (`tools/parity_gaps.py`); the table below says what the harnesses compare.
+**Открытых проблем, заметных игрокам: 0** из 833, найденных [реестром переноса](tools/port_ledger.py). Он сопоставляет каждый метод ванильной версии 26.3 с кодом Horizon и ищет отличия в поведении, которые заметит игрок. По категориям: животные [0](https://github.com/horizon-rust/horizon/issues/3512); монстры и боссы [0](https://github.com/horizon-rust/horizon/issues/3513); сущности, снаряды, транспорт и декорации [0](https://github.com/horizon-rust/horizon/issues/3514); предметы, зачарования и инвентари [0](https://github.com/horizon-rust/horizon/issues/3515); блоки, редстоун и жидкости [0](https://github.com/horizon-rust/horizon/issues/3516); мир, генерация мира и сохранения [0](https://github.com/horizon-rust/horizon/issues/3517); экраны, HUD и пакеты клиента [0](https://github.com/horizon-rust/horizon/issues/3518); рендеринг сущностей и блоков, модели [0](https://github.com/horizon-rust/horizon/issues/3519); сервер и игроки на сервере [0](https://github.com/horizon-rust/horizon/issues/3520); ИИ мобов, жители деревень и рейды [0](https://github.com/horizon-rust/horizon/issues/3521). Это число уменьшается по мере устранения проблем (`tools/parity_gaps.py`); в таблице ниже указано, что именно сравнивают тестовые наборы.
 
-The table is the project's own audit of what the harnesses compare, subsystem by subsystem: a score says how much of that subsystem the harnesses cover and pass, not that nothing else differs from vanilla. What players still run into: [known issues](docs/known-issues.md).
+Таблица — собственная оценка проекта того, насколько тестовые наборы проверяют каждую подсистему и проходят ли они. Оценка показывает полноту покрытия тестами, а не гарантирует отсутствие любых отличий от ванильной игры. С тем, с чем игроки всё ещё могут столкнуться, можно ознакомиться в разделе [известные проблемы](docs/known-issues.md).
 
-### What the harnesses compare
+### Что проверяют тестовые наборы
 
-Scores: 0 (absent), 0.25 (started), 0.5 (playable, major features missing), 0.75 (mostly complete) or 1 (its harnesses cover the subsystem and pass). Last audited 2026-10-13: the harnesses pass on Linux and macOS. The [port ledger](tools/port_ledger.py) adds a method-by-method view of what is ported.
+Оценки: 0 (отсутствует), 0.25 (работа начата), 0.5 (можно играть, но не хватает важных функций), 0.75 (почти завершено) или 1 (тесты подсистемы проходят и покрывают её функциональность). Последняя проверка проведена 2026-10-13: тесты проходят на Linux и macOS. [Реестр переноса](tools/port_ledger.py) также позволяет посмотреть перенос по отдельным методам.
 
-| Subsystem | Score | Main gaps |
+| Подсистема | Оценка | Основные пробелы |
 | --- | ---: | --- |
-| Window, input and game loop | 1 | None: game loop, options, camera, auto-jump, toggle sprint/sneak and frame limiter match |
-| Assets and resources | 1 | None: item models match over 196,290 stacks; the resource pack screen over 3,000 sessions |
-| Network protocol and multiplayer | 1 | None: joins vanilla servers; the dedicated server matches vanilla's files, login, configuration, play and command tree; LAN discovery over 462 cases (offline mode only) |
-| Chunk storage and palettes | 1 | None: client and saves share paletted containers, identical to vanilla over 266 scenarios |
-| Section meshing | 1 | None: 112 scenes and over a million quads identical to vanilla |
-| Rendering | 1 | None: entity models, block entity renderers (407 cases) and animations (296), HUD overlays (2,200 states), the recipe book (600), player list, subtitles and world border match |
-| Lighting | 1 | None: saved and relit light matches vanilla, slabs and stairs included |
-| World generation | 1 | None: 2,352 whole chunks over 225 structure sites, in all three dimensions, identical to vanilla |
-| Region files and saves | 1 | None: saves round-trip with vanilla; worlds from 1.8 to 26.2 upgrade as vanilla's DataFixers do |
-| Entities and physics | 1 | None: attributes, spawn rules, natural spawning (15,500 cases), raids and patrols (1,900), `finalizeSpawn` (24,000) and mob AI (92 scenarios) match |
-| Interaction and inventory | 1 | None: menu clicks over 8,000 sequences; recipe book placement (6,000), buttons (1,200), saved book (1,500), loom and crafter screens (1,600) |
-| Menus, HUD and chat | 1 | None: every command (758 over 39,685 inputs), scoreboards (81,000 operations), the player list (872,000 draw calls), chat and its suggestions (3,000 sessions) match |
-| Audio | 1 | None: the sound engine, sound events, music, situational music, ambience and subtitles match vanilla |
-| Block behaviours and ticking | 1 | None: block updates, random ticks, redstone, dispensers (6,000 cases), crafters (4,000), container spills (4,000), copper golems and the sculk family (435 scenarios) match |
+| Окно, ввод и игровой цикл | 1 | Нет: игровой цикл, настройки, камера, автопрыжок, переключение бега/крадущегося режима и ограничитель кадров соответствуют ванильной игре |
+| Ресурсы и игровые файлы | 1 | Нет: модели предметов совпадают более чем для 196 290 наборов; экран ресурс-паков проверен в более чем 3 000 сессиях |
+| Сетевой протокол и мультиплеер | 1 | Нет: подключение к ванильным серверам; выделенный сервер совпадает с ванильным по файлам, входу, конфигурации, игровому процессу и дереву команд; обнаружение LAN проверено в 462 случаях (только offline mode) |
+| Хранение чанков и палитры | 1 | Нет: клиент и сохранения используют палитровые контейнеры, идентичные ванильным в 266 сценариях |
+| Построение мешей секций | 1 | Нет: 112 сцен и более миллиона четырёхугольников идентичны ванильной игре |
+| Рендеринг | 1 | Нет: модели сущностей, рендереры блочных сущностей (407 случаев) и анимации (296), элементы HUD (2 200 состояний), книга рецептов (600), список игроков, субтитры и граница мира совпадают |
+| Освещение | 1 | Нет: сохранённое и пересчитанное освещение совпадает с ванильным, включая плиты и лестницы |
+| Генерация мира | 1 | Нет: 2 352 целых чанка в 225 местах расположения структур во всех трёх измерениях идентичны ванильной игре |
+| Файлы регионов и сохранения | 1 | Нет: сохранения корректно открываются в ванильной игре; миры от 1.8 до 26.2 обновляются так же, как с помощью ванильных DataFixer |
+| Сущности и физика | 1 | Нет: атрибуты, правила появления, естественное появление мобов (15 500 случаев), рейды и патрули (1 900), `finalizeSpawn` (24 000) и ИИ мобов (92 сценария) совпадают |
+| Взаимодействие и инвентарь | 1 | Нет: нажатия в меню проверены более чем в 8 000 последовательностей; размещение предметов из книги рецептов (6 000), кнопки (1 200), сохранённая книга (1 500), экраны ткацкого станка и механизма-сборщика (1 600) |
+| Меню, HUD и чат | 1 | Нет: все команды (758 на 39 685 входных данных), таблицы результатов (81 000 операций), список игроков (872 000 вызовов отрисовки), чат и подсказки (3 000 сессий) совпадают |
+| Звук | 1 | Нет: звуковой движок, звуковые события, музыка, ситуационная музыка, окружение и субтитры совпадают с ванильной игрой |
+| Поведение блоков и тики | 1 | Нет: обновления блоков, случайные тики, редстоун, раздатчики (6 000 случаев), механизмы-сборщики (4 000), выпадение содержимого контейнеров (4 000), медные големы и семейство скалка (435 сценариев) совпадают |
 
-## Licence
+## Лицензия
 
-[MIT](LICENSE), for the project's original work; dependencies keep their own licences ([notices](THIRD_PARTY_NOTICES.md)). Horizon is made by [Ludovic Marie](https://lu4ovic.com) ([@ludovic111](https://github.com/ludovic111)) and [its contributors](https://github.com/horizon-rust/horizon/graphs/contributors); support it on [GitHub Sponsors](https://github.com/sponsors/ludovic111).
+[MIT](LICENSE) распространяется на оригинальные части проекта; зависимости сохраняют собственные лицензии ([список уведомлений](THIRD_PARTY_NOTICES.md)). Horizon создан [Ludovic Marie](https://lu4ovic.com) ([@ludovic111](https://github.com/ludovic111)) и [участниками проекта](https://github.com/horizon-rust/horizon/graphs/contributors). Поддержать оригинальный проект можно через [GitHub Sponsors](https://github.com/sponsors/ludovic111).
 
-NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT. Minecraft is a trademark of Mojang Synergies AB; its code and assets belong to Mojang and Microsoft under the [Minecraft EULA](https://www.minecraft.net/en-us/eula).
+ЭТО НЕ ОФИЦИАЛЬНЫЙ ПРОДУКТ MINECRAFT. ОН НЕ ОДОБРЕН MOJANG ИЛИ MICROSOFT И НЕ СВЯЗАН С НИМИ. Minecraft является товарным знаком Mojang Synergies AB; код и ресурсы игры принадлежат Mojang и Microsoft и регулируются [Лицензионным соглашением Minecraft (EULA)](https://www.minecraft.net/en-us/eula).
