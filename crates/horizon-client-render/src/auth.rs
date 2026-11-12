@@ -957,6 +957,33 @@ mod tests {
     }
 
     #[test]
+    fn session_files_select_the_correct_identity_provider() {
+        let base = serde_json::json!({
+            "name": "Bocchi",
+            "uuid": "069a79f444e94726a5befca90e38aaf5",
+            "access_token": "secret-token",
+        });
+        let microsoft = AuthSession::parse(&base.to_string()).unwrap();
+        assert_eq!(microsoft.provider, Provider::Microsoft);
+
+        let mut ely = base.clone();
+        ely["user_type"] = serde_json::Value::String("ely".into());
+        let ely = AuthSession::parse(&ely.to_string()).unwrap();
+        assert_eq!(ely.provider, Provider::ElyBy);
+        assert!(!format!("{ely:?}").contains("secret-token"));
+
+        let mut unsupported = base;
+        unsupported["user_type"] = serde_json::Value::String("unknown".into());
+        assert!(AuthSession::parse(&unsupported.to_string()).is_err());
+    }
+
+    #[test]
+    fn microsoft_constructor_keeps_microsoft_provider() {
+        let session = AuthSession::new("Bocchi", 1, "secret-token");
+        assert_eq!(session.provider, Provider::Microsoft);
+    }
+
+    #[test]
     fn discovery_endpoints() {
         let doc = serde_json::json!({"discovery": {"session": {"endpoints": {"join": {"uri": "https://s/join"}}}}});
         assert_eq!(
