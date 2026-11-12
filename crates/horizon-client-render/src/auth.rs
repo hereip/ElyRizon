@@ -14,11 +14,19 @@ pub const DEFAULT_DISCOVERY: &str = "https://discovery.minecraftservices.com/min
 /// A session file older than this is refused: it can't be replayed later.
 const MAX_SESSION_FILE_AGE: Duration = Duration::from_secs(120);
 
-/// A signed-in account (vanilla's User with type msa).
+/// The identity provider that issued the session token.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Provider {
+    Microsoft,
+    ElyBy,
+}
+
+/// A signed-in account handed over by the launcher.
 pub struct AuthSession {
     pub name: String,
     pub uuid: u128,
     pub xuid: Option<String>,
+    pub provider: Provider,
     access_token: String,
 }
 impl std::fmt::Debug for AuthSession {
@@ -26,6 +34,7 @@ impl std::fmt::Debug for AuthSession {
         f.debug_struct("AuthSession")
             .field("name", &self.name)
             .field("uuid", &horizon_protocol::crypto::uuid_string(self.uuid))
+            .field("provider", &self.provider)
             .field("access_token", &"<hidden>")
             .finish()
     }
@@ -46,6 +55,7 @@ impl AuthSession {
             name: name.to_owned(),
             uuid,
             xuid: None,
+            provider: Provider::Microsoft,
             access_token: access_token.to_owned(),
         }
     }
@@ -68,13 +78,16 @@ impl AuthSession {
         let access_token = field("access_token")
             .filter(|t| !t.is_empty())
             .ok_or("the session has no access token")?;
-        if field("user_type").is_some_and(|t| t != "msa") {
-            return Err("the session is not a Microsoft account session".into());
-        }
+        let provider = match field("user_type").unwrap_or("msa") {
+            "msa" => Provider::Microsoft,
+            "ely" | "elyby" => Provider::ElyBy,
+            _ => return Err("the session uses an unsupported account provider".into()),
+        };
         Ok(Self {
             name: name.to_owned(),
             uuid,
             xuid: field("xuid").map(str::to_owned),
+            provider,
             access_token: access_token.to_owned(),
         })
     }
@@ -307,7 +320,11 @@ pub fn join_server(session: &AuthSession, server_hash: &str) -> Result<(), JoinE
 
 fn join_server_once(session: &AuthSession, server_hash: &str) -> Result<(), JoinError> {
     let doc = discovery()?;
-    let url = endpoint(&doc, "session", "join").ok_or(JoinError::Unavailable)?;
+    let url = match session.provider {
+        Provider::Microsoft => endpoint(&doc, "session", "join").ok_or(JoinError::Unavailable)?,
+        // Ely.by implements the same Yggdrasil session join body on its own auth server.
+        Provider::ElyBy => "https://authserver.ely.by/session/join".to_owned(),
+    };
     match agent()
         .post(&url)
         .set("Content-Type", "application/json; charset=utf-8")
