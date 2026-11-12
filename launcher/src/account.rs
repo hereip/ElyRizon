@@ -13,6 +13,7 @@
 //! The Azure app (client ID) is Horizon's own and is configuration: `HORIZON_MSA_CLIENT_ID` at
 //! build time, or at run time to override it. Without one, sign-in says it is not configured.
 pub mod session;
+pub mod ely;
 
 use serde_json::{json, Value};
 use std::collections::HashMap;
